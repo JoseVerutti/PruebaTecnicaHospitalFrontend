@@ -1,6 +1,6 @@
 # App gestion hospitalaria de pacientes 
 
-![Imagen de la aplicación](Readme.png)
+![Imagen de la aplicación](Readme.png) 
 
 ## Descripción
 
