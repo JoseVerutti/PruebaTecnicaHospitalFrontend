@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import './tabla.css'; // Asegúrate de que este archivo contenga los estilos deseados
 
-const Tabla = () => {
+const Tabla = ({popUpEnable, currentDate}) => {
+  
   const [datos, setDatos] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -26,7 +27,7 @@ const Tabla = () => {
     };
 
     fetchData();
-  }, []);
+  }, [popUpEnable]);
 
   if (loading) {
     return <div>Cargando...</div>;
@@ -54,8 +55,19 @@ const Tabla = () => {
               <td>{item.bloque}</td>
               <td>{item.especialidad}</td>
               <td>{item.proceso}</td>
-              <td>{item.tiempo}</td>
-              <td>Hola</td>
+              <td>{Math.floor((currentDate.getTime()-item.tiempo)/60000)} min</td>
+              <td>
+                <div 
+                className=
+                {
+                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<30)?"verde":
+                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<60)?"amarillo":
+                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<90)?"naranja":"rojo"
+                }
+                ></div>
+              </td>
+
+
             </tr>
           ))}
         </tbody>
