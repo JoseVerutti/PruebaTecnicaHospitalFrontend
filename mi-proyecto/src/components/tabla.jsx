@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './tabla.css'; // Asegúrate de que este archivo contenga los estilos deseados
 
-const Tabla = ({ popUpEnable,popUpEnable2,popUpEnable3 ,currentDate }) => {
+const Tabla = ({ popUpEnable, popUpEnable2, popUpEnable3, currentDate }) => {
   const [datos, setDatos] = useState([]);
   const [loading, setLoading] = useState(true);
   const [startIndex, setStartIndex] = useState(0);
@@ -63,6 +63,28 @@ const Tabla = ({ popUpEnable,popUpEnable2,popUpEnable3 ,currentDate }) => {
     });
   };
 
+  const getStatusColor = (tiempo) => {
+    const elapsedMillis = currentDate.getTime() - tiempo;
+    const elapsedSeconds = Math.floor(elapsedMillis / 1000);
+    const hours = Math.floor(elapsedSeconds / 3600);
+    const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+    const seconds = elapsedSeconds % 60;
+
+    const formattedTime = `${hours}h ${minutes}m ${seconds}s`;
+
+    return (
+      elapsedMillis < 10 * 60000 ? "verde1" :
+      elapsedMillis < 20 * 60000 ? "verde2" :
+      elapsedMillis < 30 * 60000 ? "verde3" :
+      elapsedMillis < 40 * 60000 ? "amarillo1" :
+      elapsedMillis < 50 * 60000 ? "amarillo2" :
+      elapsedMillis < 60 * 60000 ? "amarillo3" :
+      elapsedMillis < 70 * 60000 ? "naranja1" :
+      elapsedMillis < 80 * 60000 ? "naranja2" :
+      elapsedMillis < 90 * 60000 ? "naranja3" : "rojo"
+    );
+  };
+
   return (
     <div className="table-container">
       <button className="nav-button" onClick={handlePrev}>{"<"}</button>
@@ -86,14 +108,20 @@ const Tabla = ({ popUpEnable,popUpEnable2,popUpEnable3 ,currentDate }) => {
               <td>{item.bloque}</td>
               <td>{item.especialidad}</td>
               <td>{item.proceso}</td>
-              <td>{Math.floor((currentDate.getTime() - item.tiempo) / 60000)} min</td>
+              <td>
+                {(() => {
+                  const elapsedMillis = currentDate.getTime() - item.tiempo;
+                  const elapsedSeconds = Math.floor(elapsedMillis / 1000);
+                  const hours = Math.floor(elapsedSeconds / 3600);
+                  const minutes = Math.floor((elapsedSeconds % 3600) / 60);
+                  const seconds = elapsedSeconds % 60;
+
+                  return `${hours}h ${minutes}m ${seconds}s`;
+                })()}
+              </td>
               <td>
                 <div
-                  className={
-                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 30) ? "verde" :
-                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 60) ? "amarillo" :
-                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 90) ? "naranja" : "rojo"
-                  }
+                  className={getStatusColor(item.tiempo)}
                 ></div>
               </td>
             </tr>
