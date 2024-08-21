@@ -24,7 +24,7 @@ Además, la barra de estado va aumentando y cambiando de color acorde al tiempo 
 ## Instalación
 
 ### Requisitos previos
-Antes de instalar el frontend, asegúrate de que el backend esté correctamente instalado y ejecutándose en local en el puerto 8000. El backend se encuentra en el repositorio [PruebaTecnicaHospital](URL_DEL_REPOSITORIO_BACKEND).
+Antes de instalar el frontend, asegúrate de que el backend esté correctamente instalado y ejecutándose en local en el puerto 8000. El backend se encuentra en el repositorio [PruebaTecnicaHospital](https://github.com/JoseVerutti/PruebaTecnicaHospital).
 
 ### Pasos para la instalación
 
