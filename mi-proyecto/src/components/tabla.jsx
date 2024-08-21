@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import './tabla.css'; // Asegúrate de que este archivo contenga los estilos deseados
 
-const Tabla = ({popUpEnable, currentDate}) => {
-  
+const Tabla = ({ popUpEnable,popUpEnable2,popUpEnable3 ,currentDate }) => {
   const [datos, setDatos] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [startIndex, setStartIndex] = useState(0);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch('http://127.0.0.1:8000/pacientes'); // Reemplaza con la URL de tu API
+        const response = await fetch('http://127.0.0.1:8000/pacientes');
         const result = await response.json();
         
-        // Unimos el primer nombre con el primer apellido
-        const datosConNombreCompleto = result.slice(0, 15).map(item => ({
+        const datosConNombreCompleto = result.map(item => ({
           ...item,
           nombreCompleto: `${item.nombre} ${item.apellido1}`
         }));
@@ -27,14 +26,46 @@ const Tabla = ({popUpEnable, currentDate}) => {
     };
 
     fetchData();
-  }, [popUpEnable]);
+  }, [popUpEnable, popUpEnable2, popUpEnable3]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setStartIndex(prevIndex => {
+        const newIndex = (prevIndex + 15) % datos.length;
+        return newIndex;
+      });
+    }, 20000); 
+
+    return () => clearInterval(interval); 
+  }, [datos]);
 
   if (loading) {
     return <div>Cargando...</div>;
   }
 
+  const datosParaMostrar = datos.slice(startIndex, startIndex + 15);
+  if (startIndex + 15 > datos.length) {
+    const faltantes = (startIndex + 15) - datos.length;
+    datosParaMostrar.push(...datos.slice(0, faltantes));
+  }
+
+  const handlePrev = () => {
+    setStartIndex(prevIndex => {
+      const newIndex = (prevIndex - 15 + datos.length) % datos.length;
+      return newIndex;
+    });
+  };
+
+  const handleNext = () => {
+    setStartIndex(prevIndex => {
+      const newIndex = (prevIndex + 15) % datos.length;
+      return newIndex;
+    });
+  };
+
   return (
     <div className="table-container">
+      <button className="nav-button" onClick={handlePrev}>{"<"}</button>
       <table className="custom-table">
         <thead>
           <tr>
@@ -48,30 +79,28 @@ const Tabla = ({popUpEnable, currentDate}) => {
           </tr>
         </thead>
         <tbody>
-          {datos.map((item, index) => (
+          {datosParaMostrar.map((item, index) => (
             <tr key={index}>
               <td>{item.nombreCompleto}</td>
-              <td>{item.documento}</td>
+              <td className='celdaDocumento'>{item.documento}</td>
               <td>{item.bloque}</td>
               <td>{item.especialidad}</td>
               <td>{item.proceso}</td>
-              <td>{Math.floor((currentDate.getTime()-item.tiempo)/60000)} min</td>
+              <td>{Math.floor((currentDate.getTime() - item.tiempo) / 60000)} min</td>
               <td>
-                <div 
-                className=
-                {
-                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<30)?"verde":
-                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<60)?"amarillo":
-                  (Math.floor((currentDate.getTime()-item.tiempo)/60000)<90)?"naranja":"rojo"
-                }
+                <div
+                  className={
+                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 30) ? "verde" :
+                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 60) ? "amarillo" :
+                    (Math.floor((currentDate.getTime() - item.tiempo) / 60000) < 90) ? "naranja" : "rojo"
+                  }
                 ></div>
               </td>
-
-
             </tr>
           ))}
         </tbody>
       </table>
+      <button className="nav-button" onClick={handleNext}>{">"}</button>
     </div>
   );
 };

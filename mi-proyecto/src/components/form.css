@@ -1,6 +1,6 @@
 .form {
     position: fixed;
-    top: 50px; /* Ajusta esta distancia desde la parte superior de la pantalla */
+    top: 25px; /* Ajusta esta distancia desde la parte superior de la pantalla */
     left: 50%; /* Centra horizontalmente */
     transform: translateX(-50%); /* Ajusta el elemento a la izquierda para que esté centrado */
     background-color: rgb(7, 46, 80);
@@ -33,6 +33,8 @@
 
 
 .button-40 {
+  margin-top: 5px;
+  margin-bottom: 8px;
   background-color: #111827;
   border: 1px solid transparent;
   border-radius: .75rem;

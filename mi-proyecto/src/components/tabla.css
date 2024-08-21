@@ -1,4 +1,7 @@
 .table-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 20px;
   }
   
@@ -6,6 +9,18 @@
     width: 100%;
     border-collapse: collapse;
     background-color: black;
+  }
+  .nav-button {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    font-size: 18px;
+  }
+  
+  .nav-button:hover {
+    background-color: #555;
   }
   
   .custom-table th, .custom-table td {
@@ -24,7 +39,21 @@
   .custom-table td {
     background-color: #797979;
     border-radius: 10px;
+    padding: 5px;
   }
+
+  .celdaDocumento {
+    position: relative; /* Posicionamiento relativo para que el pseudo-elemento se coloque correctamente */
+    background-color: #808080; /* Color de fondo gris */
+    color: #FFD700 !important; /* Color del texto en dorado */
+    font-family: 'Arial', sans-serif; /* Fuente simple y legible */
+    font-size: 18px; /* Tamaño de fuente */
+    font-weight: bold; /* Negrita para el texto */
+    text-align: center; /* Centrar el texto */
+    padding: 10px; /* Espaciado interno */
+    border-radius: 5px; /* Bordes redondeados */
+}
+
 
 .verde {
   background-color: rgb(0, 255, 21) !important;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./form.css"
+import "./form.css";
 
-function Form({ onSubmit }) {
+function Form2({ onSubmit }) {
   const [formData, setFormData] = useState({
     nombre: "",
     nombre2: "",
@@ -22,7 +22,7 @@ function Form({ onSubmit }) {
     const currentDate = new Date();
     setFormData((prevData) => ({
       ...prevData,
-      tiempo: currentDate.getTime()
+      tiempo: currentDate.toISOString(),
     }));
 
     // Simular carga de especialidades desde una API o archivo
@@ -34,12 +34,12 @@ function Form({ onSubmit }) {
       "Traumatología",
       "Oftalmología",
       "Otorrinolaringología",
-      "Cardiología"
+      "Cardiología",
     ]);
   }, []);
 
   useEffect(() => {
-    // Actualiza la lista de procesos en función de la especialidad seleccionada
+    
     const procesosPorEspecialidad = {
       "Medicina Interna": ["Consulta General", "Examen Físico"],
       "Cirugía General": ["Cirugía Electiva", "Cirugía de Emergencia"],
@@ -48,7 +48,7 @@ function Form({ onSubmit }) {
       "Traumatología": ["Consulta de Traumatología", "Tratamiento de Fracturas"],
       "Oftalmología": ["Consulta Oftalmológica", "Exámenes de Vista"],
       "Otorrinolaringología": ["Consulta ORL", "Tratamiento de Afecciones Nasales"],
-      "Cardiología": ["Consulta Cardiológica", "Electrocardiograma"]
+      "Cardiología": ["Consulta Cardiológica", "Electrocardiograma"],
     };
 
     setProcesos(procesosPorEspecialidad[formData.especialidad] || []);
@@ -58,8 +58,43 @@ function Form({ onSubmit }) {
     const { name, value } = event.target;
     setFormData({
       ...formData,
-      [name]: value
+      [name]: value,
     });
+  };
+
+  const handleBuscar = async () => {
+    if (!formData.documento) {
+      alert("Por favor, ingrese un documento.");
+      return;
+    }
+    const currentDate = new Date();
+    try {
+      const response = await fetch(`http://localhost:8000/paciente/${formData.documento}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setFormData({
+          nombre: data.nombre,
+          nombre2: data.nombre2,
+          apellido1: data.apellido1,
+          apellido2: data.apellido2,
+          documento: data.documento,
+          bloque: data.bloque,
+          especialidad: data.especialidad,
+          proceso: data.proceso,
+          tiempo: currentDate.getTime(),
+        });
+      } else {
+        alert("Paciente no encontrado.");
+      }
+    } catch (error) {
+      console.error("Error al buscar el paciente:", error);
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -75,12 +110,25 @@ function Form({ onSubmit }) {
 
     onSubmit();
     console.log("Formulario enviado:", formData);
+    
   };
 
   return (
     <div className="form">
       <h2>Formulario de Registro</h2>
       <form onSubmit={handleSubmit}>
+        <label>
+          Documento:
+          <input
+            type="text"
+            name="documento"
+            value={formData.documento}
+            onChange={handleChange}
+            required
+          />
+          <button type="button" onClick={handleBuscar} className="button-40">Buscar</button>
+        </label>
+        <br />
         <label>
           Nombre:
           <input
@@ -119,17 +167,6 @@ function Form({ onSubmit }) {
             type="text"
             name="apellido2"
             value={formData.apellido2}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Documento:
-          <input
-            type="text"
-            name="documento"
-            value={formData.documento}
             onChange={handleChange}
             required
           />
@@ -189,4 +226,4 @@ function Form({ onSubmit }) {
   );
 }
 
-export default Form;
+export default Form2;
