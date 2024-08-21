@@ -1,4 +1,4 @@
-# Mi Aplicación React
+# App gestion hospitalaria de pacientes 
 
 ![Imagen de la aplicación](Readme.png)
 
