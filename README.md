@@ -1,5 +1,3 @@
-Aquí tienes el readme correctamente formateado:
-
 # App gestión hospitalaria de pacientes
 ![Imagen de la aplicación](Readmeimg.png)
 
@@ -10,12 +8,18 @@ Esta es una aplicación desarrollada en React que se encarga de mostrar los paci
 - **Modificación**: Actualizar la información existente de los pacientes.
 - **Eliminación**: Borrar pacientes del sistema.
 
-La aplicación proporciona una interfaz intuitiva para visualizar y manejar la información de los pacientes, facilitando la administración y seguimiento en el entorno hospitalario.
+La aplicación proporciona una interfaz intuitiva para visualizar y manejar la información de los pacientes, facilitando la administración y seguimiento en el entorno hospitalario. Toda la información de los pacientes se almacena en la base de datos de AWS DynamoDB. La aplicación se asegura de que los nombres y apellidos se almacenen con inicial en mayúscula.
+
+Además, la barra de estado va aumentando y cambiando de color acorde al tiempo de espera del paciente. Cuando se actualiza la información de un paciente para cambiar al bloque, especialidad, o proceso que se está realizando, el tiempo de espera y la barra de esta vuelven a empezar desde 0.
 
 ## Características
 - Visualización de datos de pacientes.
 - Información detallada sobre ubicación y tiempo.
 - Conexión con una API para la gestión de datos.
+- Almacenamiento de información en AWS DynamoDB.
+- Formateo de nombres y apellidos con inicial en mayúscula.
+- Barra de estado que indica el tiempo de espera del paciente.
+- Reinicio del tiempo de espera y de la barra al actualizar la información del paciente.
 
 ## Instalación
 
@@ -53,4 +57,4 @@ Antes de instalar el frontend, asegúrate de que el backend esté correctamente 
    Esto abrirá la aplicación en tu navegador predeterminado. Si no se abre automáticamente, visita `http://localhost:3000` en tu navegador.
 
 6. **Verificar el funcionamiento**
-   Asegúrate de que la aplicación frontend esté correctamente conectada al backend y que puedas realizar operaciones como la creación, modificación y eliminación de pacientes.
+   Asegúrate de que la aplicación frontend esté correctamente conectada al backend y que puedas realizar operaciones como la creación, modificación y eliminación de pacientes. Verifica también que la información de los pacientes se esté almacenando correctamente en AWS DynamoDB, que los nombres y apellidos tengan la inicial en mayúscula, y que la barra de estado y el tiempo de espera se comporten según lo esperado.
